@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crime Hotspot Prediction System</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            width: 420px;
+            margin: auto;
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background-color: #243b55;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .red { background-color: #ff4d4d; }
+        .orange { background-color: #ffae42; color: black; }
+        .green { background-color: #4CAF50; }
+
+        iframe {
+            width: 95%;
+            height: 450px;
+            border: none;
+            border-radius: 15px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🚓 Crime Hotspot Prediction System</h1>
+
+<div class="container">
+    <form method="POST">
+        <input type="number" step="any" name="latitude" placeholder="Latitude" required>
+        <input type="number" step="any" name="longitude" placeholder="Longitude" required>
+        <input type="number" name="hour" placeholder="Hour (0–23)" required>
+        <button type="submit">Predict Crime Risk</button>
+    </form>
+
+    {% if cluster_result is not none %}
+        <h3>Predicted Hotspot Cluster: {{ cluster_result }}</h3>
+
+        <div class="alert {{ risk_color }}">
+            {{ risk_message }}
+        </div>
+    {% endif %}
+</div>
+
+{% if cluster_result is not none %}
+    <iframe src="{{ url_for('static', filename='map.html') }}"></iframe>
+{% endif %}
+
+</body>
+</html>
